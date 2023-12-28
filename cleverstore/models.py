@@ -18,6 +18,9 @@ class Category(models.Model):
         "self", null=True, blank=True, on_delete=models.CASCADE
     )
 
+    def get_absolute_url(self):
+        return reverse("category_page", args=[str(self.id)])
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -37,6 +40,20 @@ class Order(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     is_paid = models.BooleanField(default=False)
     is_shipped = models.BooleanField(default=False)
+
+    def create_order(self, cart):
+        order = Order.objects.create(customer=self.customer)
+        for cart_item in cart.cartitem_set.all():
+            OrderItem.objects.create(
+                order=order,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                item_price=cart_item.product.price,
+            )
+            order.total_amount += cart_item.product.price * cart_item.quantity
+        order.save()
+        cart.clear_cart()
+        return order
 
 
 class OrderItem(models.Model):
@@ -82,6 +99,9 @@ class Cart(models.Model):
             cart_item.save()
         else:
             cart_item.delete()
+
+    def clear_cart(self):
+        self.products.clear()
 
 
 class CartItem(models.Model):

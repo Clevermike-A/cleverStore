@@ -27,6 +27,18 @@ class ProductDetailView(View):
 # function based views
 
 
+def category_page(request, category_id):
+    category = Category.objects.get(pk=category_id)
+    products = Product.objects.filter(category=category)
+
+    context = {
+        "category": category,
+        "products": products,
+    }
+
+    return render(request, "category_page.html", context)
+
+
 def product_list(request):
     products = Product.objects.all()
     return render(request, "product_list.html", {"products": products})

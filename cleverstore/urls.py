@@ -9,6 +9,7 @@ from .views import (
     clear_cart,
     order_confirmation,
     checkout,
+    category_page,
 )
 
 
@@ -24,6 +25,7 @@ urlpatterns = [
         name="remove_single_item_from_cart",
     ),
     path("view_cart/", view_cart, name="view_cart"),
+    path("category/<int:category_id>/", category_page, name="category_page"),
     path("clear_cart/", clear_cart, name="clear_cart"),
     path("checkout/", checkout, name="checkout"),
     path("order_confirmation/<int:pk>/", order_confirmation, name="order_confirmation"),
