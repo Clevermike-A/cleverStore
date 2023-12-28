@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Shopping Cart</h2>
+  
+  {% if cart.products.all %}
+    <ul>
+      {% for item in cart.cartitem_set.all %}
+        <li>
+          {{ item.product.name }} - Quantity: {{ item.quantity }}
+          <form method="post" action="{% url 'remove_single_item_from_cart' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <button type="submit">Remove One Item</button>
+          </form>
+          <form method="post" action="{% url 'remove_from_cart' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <button type="submit">Remove All</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>Total: ${{ cart.products.all|price_sum }}</p>
+    <form method="post" action="{% url 'clear_cart' %}">
+      {% csrf_token %}
+      <button type="submit">Clear Cart</button>
+    </form>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+  
+{% endblock %}
