@@ -111,5 +111,7 @@ class CartItem(models.Model):
 
 
 class Wishlist(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField(
+        Customer, related_name="wishlisted_by", blank=True, on_delete=models.CASCADE
+    )
     products = models.ManyToManyField(Product)

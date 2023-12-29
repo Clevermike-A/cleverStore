@@ -41,7 +41,7 @@ def category_page(request, category_id):
 
 def product_list(request):
     products = Product.objects.all()
-    return render(request, "product_list.html", {"products": products})
+    return render(request, "index-7.html", {"products": products})
 
 
 def product_detail(request, pk):

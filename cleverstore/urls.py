@@ -29,6 +29,4 @@ urlpatterns = [
     path("clear_cart/", clear_cart, name="clear_cart"),
     path("checkout/", checkout, name="checkout"),
     path("order_confirmation/<int:pk>/", order_confirmation, name="order_confirmation"),
-    # other URLs...
-    # other URLs...
 ]
